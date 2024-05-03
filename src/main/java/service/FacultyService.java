@@ -6,7 +6,6 @@ import repository.FacultyRepository;
 
 import java.util.Collection;
 
-public class FacultyService {
 
     @Service
     public class FacultyService {

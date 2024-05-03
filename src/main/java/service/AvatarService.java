@@ -11,19 +11,20 @@ import repository.StudentRepository;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
-public class AvatarService {
+
 
     @Service
     public class AvatarService {
         private final AvatarRepository avatarRepository;
-        private final JpaSort.Path avatarsDir;
+        private final Path avatarsDir;
         private final StudentRepository studentRepository;
 
 
-        public AvatarService(AvatarRepository avatarRepository, @Value("${avatars.dir}") JpaSort.Path avatarsDir, StudentRepository studentRepository) {
+        public AvatarService(AvatarRepository avatarRepository, @Value("${avatars.dir}") Path avatarsDir, StudentRepository studentRepository) {
             this.avatarRepository = avatarRepository;
             this.avatarsDir = avatarsDir;
             this.studentRepository = studentRepository;
@@ -34,7 +35,7 @@ public class AvatarService {
             Files.createDirectories(avatarsDir);
             var index = file.getOriginalFilename().lastIndexOf('.');
             var extension = file.getOriginalFilename().substring(index);
-            JpaSort.Path filePath = avatarsDir.resolve(studentId + extension);
+            Path filePath = avatarsDir.resolve(studentId + extension);
             try (var in = file.getInputStream()) {
                 Files.copy(in, filePath, StandardCopyOption.REPLACE_EXISTING);
             }
