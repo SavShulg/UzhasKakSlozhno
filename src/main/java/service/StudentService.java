@@ -1,10 +1,12 @@
 package service;
 
 import model.Student;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import repository.StudentRepository;
 
 import java.util.Collection;
+import java.util.logging.Logger;
 
 public class StudentService {
 
@@ -12,6 +14,8 @@ public class StudentService {
     public class StudentService {
         private final StudentRepository repository;
         private final StudentRepository studentRepository;
+
+        private final static Logger logger = (Logger) LoggerFactory.getLogger(StudentService.class);
 
         public StudentService(StudentRepository repository, StudentRepository studentRepository) {
             this.repository = repository;
@@ -21,12 +25,12 @@ public class StudentService {
 
         public Student add(Student student) {
             return repository.save(student);
+            logger.info("student was added!");
         }
 
         public Student get(long id) {
             return repository.findById(id).orElseThrow(RecordNotFoundException::new);
-
-
+            logger.info("the file has been transferred...");
         }
 
         public boolean delete(long id) {
@@ -35,6 +39,7 @@ public class StudentService {
                         repository.delete(entity);
                         return true;
                     }).orElse(false);
+            logger.info("the file has been delete...");
         }
 
         public Student update(Student student) {
@@ -43,6 +48,7 @@ public class StudentService {
                         return repository.save(student);
                     })
                     .orElse(null);
+            logger.info("the file has been update...");
         }
 
         public Collection<Student> getByAgeBetween(int min, int max) {
