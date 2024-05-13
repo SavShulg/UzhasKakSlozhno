@@ -7,6 +7,7 @@ import repository.StudentRepository;
 
 import java.util.Collection;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class StudentService {
 
@@ -62,6 +63,7 @@ public class StudentService {
         public int getStudentCount() {
             return studentRepository.countStudents();
         }
+
         public double getAvgAge() {
             return studentRepository.avgAge();
         }
@@ -69,4 +71,21 @@ public class StudentService {
         public Collection<Student> getLastFive() {
             return studentRepository.getLastFive();
         }
+
+        public Collection<String> getNameStartsWithA() {
+            return studentRepository.findAll().stream()
+                    .map(s -> s.getName())
+                    .map(String::toUpperCase)
+                    .filter(name -> name.startsWiht("A"))
+                    .sorted()
+                    .collect(Collectors.toList());
+        }
+
+        public double getAverageAge() {
+            return studentRepository.findAll().stream()
+                    .mapToDouble (Student::getAge)
+                    .average()
+                    .orElse(0);
+        }
     }
+}

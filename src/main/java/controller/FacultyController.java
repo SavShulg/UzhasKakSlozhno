@@ -5,6 +5,8 @@ import model.Student;
 import org.springframework.web.bind.annotation.*;
 import service.FacultyService;
 
+import java.util.Collection;
+
 public class FacultyController {
     @RestController
     @RequestMapping("/faculty")
@@ -47,7 +49,12 @@ public class FacultyController {
         }
 
         @GetMapping("students")
-        public List<Student> getStudentFaculty(@RequestParam long facultyId) {
+        public Collection<Student> getStudentFaculty(@RequestParam long facultyId) {
             return service.get(facultyId).getStudents();
+        }
+
+        @GetMapping("/longestName")
+        public String getLongestName() {
+            return facultyService.getLongestName();
         }
     }
