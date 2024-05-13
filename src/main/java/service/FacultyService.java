@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import repository.FacultyRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.logging.Logger;
 
 
@@ -57,4 +58,11 @@ import java.util.logging.Logger;
         public Collection<Faculty> getAll() {
             return repository.findAll();
         }
+
+    public String getLongestName() {
+        return facultyRepository.findAll().stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparing(String::length))
+                .orElse("");
+    }
     }
