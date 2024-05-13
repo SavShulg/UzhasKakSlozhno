@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import repository.StudentRepository;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -86,6 +87,44 @@ public class StudentService {
                     .mapToDouble (Student::getAge)
                     .average()
                     .orElse(0);
+        }
+
+        public void printParallel() {
+            var students = studentRepository.findAll();
+
+            logger.info(students.get(0).toString());
+            logger.info(students.get(1).toString());
+
+            new Thread(() -> {
+                logger.info(students.get(2).toString());
+                logger.info(students.get(3).toString());
+            }).start();
+
+            new Thread(() -> {
+                logger.info(students.get(4).toString());
+                logger.info(students.get(5).toString());
+            }).start();
+        }
+
+        public void printSync() {
+            var students = studentRepository.findAll();
+
+            print(students.get(0));
+            print(students.get(1));
+
+            new Thread(() -> {
+                print(students.get(2));
+                print(students.get(3));
+            }).start();
+
+            new Thread(() -> {
+                print(students.get(4));
+                print(students.get(5));
+            }).start();
+        }
+
+        private synchronized void print(Object o) {
+            logger.info(o.toString());
         }
     }
 }
