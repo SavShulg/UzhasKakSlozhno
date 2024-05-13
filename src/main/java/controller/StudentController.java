@@ -65,4 +65,22 @@ public class StudentController {
         public Collection<Student> getLastStudents() {
             return studentService.getLastFive();
         }
+        @GetMapping("/nameStartsA")
+        public Collection<String> getStudentNameStartsA() {
+            return studentService.getNameStartsWithA();
+        }
+        @GetMapping("/avg-age-stream")
+        public double getAgeStream() {
+            return studentService.getAverageAge();
+        }
+
+        @GetMapping("/print-parallel")
+        public void printParallel() {
+            studentService.printParallel();
+        }
+        @GetMapping("/print-sync")
+        public void printSync () {
+            studentService.printSync();
+        }
+        }
     }
